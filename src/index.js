@@ -14,7 +14,7 @@ const { port, url } = process.env
 const app = express()
 
 // Emplacement du frontend
-app.use(express.static('public'))
+app.use(express.static('src/public'))
 app.use(express.json())
 app.use('/', endpoints)
 
