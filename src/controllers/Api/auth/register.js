@@ -18,8 +18,10 @@ module.exports = async (req, res) => {
             return res.status(403).json(new Response(403, 'Email est déjà utilisé'))
         }
 
+        // Hash du mot de passe grace à la lib bcrypt
         const hashedPassword = await bcrypt.hash(password, await bcrypt.genSalt(12))
 
+        //création du document utilisateur dans la base de donnée mongo
         const newUser = await User.create({
             nom,
             prenom,
@@ -27,7 +29,7 @@ module.exports = async (req, res) => {
             password: hashedPassword,
             createdAt: Date.now(),
         })
-
+        //signature du jsonwebtoken
         const token = jwt.sign({ id: newUser._id }, process.env.JWT)
 
         return res.status(201).json(new Response(201, { token }))
